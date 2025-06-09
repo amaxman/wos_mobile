@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="left_slide_remove_width">70sp</dimen>
+    <dimen name="welcome">30sp</dimen>
+</resources>
