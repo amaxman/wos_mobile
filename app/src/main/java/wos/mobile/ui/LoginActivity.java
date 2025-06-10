@@ -83,7 +83,7 @@ public class LoginActivity extends ActivityEx implements View.OnClickListener{
                         editor.putString(CommonFunc.Config_UserId, userSessionRest.getUserName());
                         editor.putString(CommonFunc.Config_SessionId, Property.sessionId);
                         editor.putString(CommonFunc.Config_StaffName, Property.staffName);
-                        editor.apply();
+                        editor.commit();
 
                         Intent intent = new Intent(context, WelcomeActivity.class);
                         startActivity(intent);
@@ -119,13 +119,13 @@ public class LoginActivity extends ActivityEx implements View.OnClickListener{
         String sessionId = sp.getString(CommonFunc.Config_SessionId, "");
 //        BasicRestService.restServer = Constants.RestConfig.ServerInternal;
 
-//        if (StringUtil.isNotEmpty(sessionId)) {
-//            Property.sessionId = sessionId;
-//            showProgressDialog(R.string.logining);
-//            new Thread(() -> {
-//                login(sessionId);
-//            }).start();
-//        }
+        if (StringUtil.isNotEmpty(sessionId)) {
+            Property.sessionId = sessionId;
+            showProgressDialog(R.string.logining);
+            new Thread(() -> {
+                login(sessionId);
+            }).start();
+        }
         hideKeyword(txUserName);
     }
 
@@ -249,7 +249,11 @@ public class LoginActivity extends ActivityEx implements View.OnClickListener{
      * @param sessionId 令牌标识
      */
     private void login(String sessionId) {
-
+        AuthRestService authRestService = new AuthRestService();
+        Message message = new Message();
+        message.what = 0;
+        message.obj = authRestService.login(sessionId);
+        handle.sendMessage(message);
     }
 
     /**

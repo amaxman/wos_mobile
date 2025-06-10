@@ -147,7 +147,7 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         initListener();
         super.onResume();
 
-        handler.sendEmptyMessage(1);
+        handler.sendEmptyMessage(0);
 
     }
 
