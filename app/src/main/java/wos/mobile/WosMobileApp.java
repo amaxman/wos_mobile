@@ -10,7 +10,9 @@ import android.content.res.Configuration;
 
 import java.util.Locale;
 
+import wos.mobile.entity.Constants;
 import wos.mobile.entity.Property;
+import wos.mobile.service.BasicRestService;
 import wos.mobile.util.CommonFunc;
 import wos.mobile.util.CrashHandler;
 
@@ -28,6 +30,7 @@ public class WosMobileApp extends Application {
         mCrashHandler = CrashHandler.getInstance();
         mCrashHandler.init(getApplicationContext());
         init();
+        BasicRestService.restServer= Constants.RestConfig.restServer;
     }
 
     public void init() {

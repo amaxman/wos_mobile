@@ -28,7 +28,10 @@ import wos.mobile.R;
 import wos.mobile.annotation.AnnotateUtil;
 import wos.mobile.annotation.BindView;
 import wos.mobile.entity.Constants;
+import wos.mobile.entity.JsonMsg;
 import wos.mobile.entity.Property;
+import wos.mobile.entity.auth.UserSessionRestEntity;
+import wos.mobile.service.AuthRestService;
 import wos.mobile.util.BitmapUtil;
 import wos.mobile.util.CommonFunc;
 import wos.mobile.util.LogUtil;
@@ -61,7 +64,36 @@ public class LoginActivity extends ActivityEx implements View.OnClickListener{
     private Handler handle = new Handler() {
         @Override
         public void handleMessage(Message message) {
+            if (message==null) return;
+            int what=message.what;
+            switch (what) {
+                case 0:
+                    closeProgressDialog();
+                    JsonMsg<UserSessionRestEntity> jsonMsg = (JsonMsg<UserSessionRestEntity>) message.obj;
+                    if (jsonMsg.isMsgType()) {
+                        UserSessionRestEntity userSessionRest = jsonMsg.getData();
+                        Property.sessionId = userSessionRest.getSessionId();
+                        Property.staffName = userSessionRest.getFullName();
 
+                        showToast(getString(R.string.login_welcome) + userSessionRest.getFullName(), Toast.LENGTH_SHORT);
+
+                        SharedPreferences sp = getSharedPreferences(
+                                CommonFunc.CONFIG, 0);
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString(CommonFunc.Config_UserId, userSessionRest.getUserName());
+                        editor.putString(CommonFunc.Config_SessionId, Property.sessionId);
+                        editor.putString(CommonFunc.Config_StaffName, Property.staffName);
+                        editor.apply();
+
+                        Intent intent = new Intent(context, WelcomeActivity.class);
+                        startActivity(intent);
+                        LoginActivity.this.finish();
+
+                    } else {
+                        showToast(jsonMsg.getMsg());
+                    }
+                    break;
+            }
         }
     };
 
@@ -87,13 +119,13 @@ public class LoginActivity extends ActivityEx implements View.OnClickListener{
         String sessionId = sp.getString(CommonFunc.Config_SessionId, "");
 //        BasicRestService.restServer = Constants.RestConfig.ServerInternal;
 
-        if (StringUtil.isNotEmpty(sessionId)) {
-            Property.sessionId = sessionId;
-            showProgressDialog(R.string.logining);
-            new Thread(() -> {
-                login(sessionId);
-            }).start();
-        }
+//        if (StringUtil.isNotEmpty(sessionId)) {
+//            Property.sessionId = sessionId;
+//            showProgressDialog(R.string.logining);
+//            new Thread(() -> {
+//                login(sessionId);
+//            }).start();
+//        }
         hideKeyword(txUserName);
     }
 
@@ -187,6 +219,10 @@ public class LoginActivity extends ActivityEx implements View.OnClickListener{
             //#region 登陆
             showProgressDialog(R.string.logining);
 
+            new Thread(() -> {
+                login(userName, userPassword);
+            }).start();
+
             //#endregion
         } else if (view == btnLanguage) {
             showPopupLanguage(view);
@@ -200,8 +236,11 @@ public class LoginActivity extends ActivityEx implements View.OnClickListener{
      * 登录
      */
     private void login(String userName, String userPassword) {
-
-
+        AuthRestService authRestService = new AuthRestService();
+        Message message = new Message();
+        message.what = 0;
+        message.obj = authRestService.login(userName, userPassword);
+        handle.sendMessage(message);
     }
 
     /**

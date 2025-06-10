@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuRefresh"
+        android:title="@string/refresh"
+        android:icon="@drawable/refresh"
+        />
+    <item
+        android:id="@+id/menuChangePassword"
+        android:title="@string/login_change_password"
+        android:icon="@drawable/password_change"
+        />
+</menu>

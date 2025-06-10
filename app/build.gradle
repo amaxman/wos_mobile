@@ -33,5 +33,7 @@ dependencies {
     implementation libs.appcompat
     implementation libs.material
     implementation libs.commons.lang3
+    implementation libs.fastjson
+
 
 }

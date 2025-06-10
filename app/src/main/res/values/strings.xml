@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">微工单</string>
     <string name="login_title">欢迎使用微工单系统</string>
+    <string name="welcome_name">欢迎</string>
 
     <!-- 系统 -->
     <string name="system_exit_title">系统提示</string>
@@ -10,6 +11,10 @@
     <string name="system_require_permission">请开通相关权限，否则无法正常使用本应用！</string>
     <string name="system_parse_error">解析错误</string>
     <string name="system_voice_content">语音内容:</string>
+
+    <!-- 程序 -->
+    <string name="version">版本号：1.1.B250108</string>
+    <string name="compAddr">新非时代科技有限公司</string>
 
     <!-- 通用 -->
     <string name="OK">确定</string>
@@ -62,9 +67,24 @@
     <string name="login_input_user_password">请输入密码</string>
     <string name="login_change_password">修改密码</string>
     <string name="logining">正在登录,请稍候</string>
+    <string name="login_welcome">欢迎您 </string>
+    <string name="defaultUserName">admin</string>
+    <string name="defaultUserPasswd">admin</string>
 
+    <string name="access_loading">正在获取功能权限</string>
+    <string name="access_refresh">刷新</string>
+    <string name="access_logout">注销</string>
+    <string name="welcome_operate_undefined">未知的操作</string>
+    <string name="welcome_undefined_func_code">未定义的功能码</string>
+
+
+
+    <!-- 异常 -->
     <string name="exp_usernameempty">账号不能为空</string>
     <string name="exp_passwrodempty">密码不能为空</string>
     <string name="exp_login">登录失败</string>
     <string name="exp_notlogin">请先登录客户端</string>
+
+    <string name="except_server_return_nothing">服务器未返回任何数据</string>
+    <string name="server_parse_json_exception">解析服务器消息异常</string>
 </resources>

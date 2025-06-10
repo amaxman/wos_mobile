@@ -70,6 +70,7 @@
                     android:ems="10"
                     android:hint="@string/login_input_user_id"
                     android:inputType="textEmailAddress"
+                    android:text="@string/defaultUserName"
                     >
 
                     <requestFocus />
@@ -93,6 +94,7 @@
                     android:background="@null"
                     android:hint="@string/login_input_user_password"
                     android:inputType="textPassword"
+                    android:text="@string/defaultUserPasswd"
                     >
                 </EditText>
             </LinearLayout>
