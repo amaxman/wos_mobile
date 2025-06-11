@@ -104,7 +104,7 @@ public abstract class ActivityEx extends FragmentActivity {
 
     //#region 变量
     protected Context context;
-    protected int pageNo = 1, pageSize = Constants.RestConfig.pageSize;
+    protected int pageNo = 1, pageSize = Constants.pageSize;
 
     protected long count = 0;
 

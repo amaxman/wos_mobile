@@ -22,6 +22,7 @@ import java.util.List;
 import wos.mobile.R;
 import wos.mobile.annotation.AnnotateUtil;
 import wos.mobile.ActivityEx;
+import wos.mobile.entity.Constants;
 import wos.mobile.entity.EnumAction;
 import wos.mobile.entity.JsonMsg;
 import wos.mobile.entity.Page;
@@ -37,6 +38,16 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
     private final List<WorkOrderRestEntity> list = new ArrayList<>();
 
     private WorkOrderAdapter adapter;
+
+    /**
+     *
+     */
+    private String nextPageURL;
+
+    /**
+     * 下一页地址
+     */
+    private String prePageURL;
     //#endregion
 
     //#region handle
@@ -52,10 +63,18 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
                     closeProgressDialog();
                     JsonMsg<Page<WorkOrderRestEntity>> clientRestPageJson = (JsonMsg<Page<WorkOrderRestEntity>>) message.obj;
                     showToast(clientRestPageJson.getMsg());
-                    if (!clientRestPageJson.isMsgType()) return;
+                    if (!clientRestPageJson.isMsgType()) {
+                        nextPageURL = null;
+                        prePageURL = null;
+                        reloadBtnPage();
+                        return;
+                    }
                     list.clear();
                     list.addAll(clientRestPageJson.getData().getList());
                     adapter.notifyDataSetChanged();
+                    nextPageURL = clientRestPageJson.getData().getNext();
+                    prePageURL = clientRestPageJson.getData().getPrevious();
+                    reloadBtnPage();
                     break;
                 case edit_activity:
 //                    Intent intentEdit = new Intent(context, PathEditActivity.class);
@@ -63,7 +82,7 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
 //                    activityResultLauncher.launch(intentEdit);
                     break;
                 case delete:
-                    delete((WorkOrderRestEntity)message.obj);
+                    delete((WorkOrderRestEntity) message.obj);
                     break;
                 case delete_ui:
                     deleteSuccess(String.valueOf(message.obj));
@@ -110,7 +129,7 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
 
         txKeyword.clearFocus();
 
-        setOnClickListener(Arrays.asList(btnAction,btnReturn,btnQuery),this);
+        setOnClickListener(Arrays.asList(btnAction, btnReturn, btnQuery,btnNext,btnPre,btnFab), this);
 
 
         btnNext.setVisibility(View.GONE);
@@ -122,7 +141,7 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
         // 注册 ActivityResultLauncher
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                (result)->{
+                (result) -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         if (data != null) {
@@ -141,7 +160,7 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
                         }
                     }
                 }
-                );
+        );
     }
     //#endregion
 
@@ -155,6 +174,10 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
             queryData();
         } else if (view == btnAction) {
 //            activityResultLauncher.launch(new Intent(context, PathEditActivity.class));
+        } else if (view == btnNext) {
+            page(nextPageURL);
+        } else if (view==btnPre) {
+            page(prePageURL);
         }
     }
     //#endregion
@@ -204,18 +227,32 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
         hideKeyword(txKeyword);
         new Thread(() -> {
             String keyword = txKeyword.getText().toString().trim();
-            JsonMsg<Page<WorkOrderRestEntity>> jsonMsg = service.find(keyword,0,20);
+            JsonMsg<Page<WorkOrderRestEntity>> jsonMsg = service.find(keyword, pageSize, 0);
             handler.sendMessage(getMessage(EnumAction.query_ui, jsonMsg));
         }).start();
+    }
+
+    public void page(String url) {
+        showProgressDialog(R.string.loading_data);
+        hideKeyword(txKeyword);
+        new Thread(() -> {
+            JsonMsg<Page<WorkOrderRestEntity>> jsonMsg = service.page(url);
+            handler.sendMessage(getMessage(EnumAction.query_ui, jsonMsg));
+        }).start();
+    }
+
+    private void reloadBtnPage() {
+        btnPre.setVisibility(StringUtil.isNotEmpty(prePageURL) ? View.VISIBLE : View.INVISIBLE);
+        btnNext.setVisibility(StringUtil.isNotEmpty(nextPageURL) ? View.VISIBLE : View.INVISIBLE);
     }
     //#endregion
 
     //#region 函数
     private void delete(WorkOrderRestEntity entity) {
-        Message message=new Message();
-        message.what=EnumAction.toast.ordinal();
-        if (entity==null) {
-            message.obj=getString(R.string.exp_no_exist);
+        Message message = new Message();
+        message.what = EnumAction.toast.ordinal();
+        if (entity == null) {
+            message.obj = getString(R.string.exp_no_exist);
             handler.sendMessage(message);
             return;
         }
@@ -224,9 +261,9 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
                 .setMessage(R.string.confirmDelete)
                 .setPositiveButton(
                         R.string.delete,
-                        (dialog,witch)-> {
+                        (dialog, witch) -> {
                             showProgressDialog(R.string.deleting);
-                            new Thread(()->{
+                            new Thread(() -> {
 //                                JsonMsg<PathRestEntity> json=service.pathDelete(entity.getId());
 //                                if (json==null) {
 //                                    message.obj=getString(R.string.exp_server_no_msg);
@@ -250,15 +287,15 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
 
     private void deleteSuccess(String id) {
         closeProgressDialog();
-        Message message=new Message();
-        message.what=EnumAction.toast.ordinal();
+        Message message = new Message();
+        message.what = EnumAction.toast.ordinal();
         if (StringUtil.isEmpty(id)) {
-            message.obj=getString(R.string.exp_id_null);
+            message.obj = getString(R.string.exp_id_null);
             handler.sendMessage(message);
             return;
         }
-        WorkOrderRestEntity entity=list.stream().filter(p->StringUtil.equalsAnyIgnoreCase(p.getId(),id)).findFirst().orElse(null);
-        if (entity!=null) {
+        WorkOrderRestEntity entity = list.stream().filter(p -> StringUtil.equalsAnyIgnoreCase(p.getId(), id)).findFirst().orElse(null);
+        if (entity != null) {
             list.remove(entity);
             adapter.notifyDataSetChanged();
         }

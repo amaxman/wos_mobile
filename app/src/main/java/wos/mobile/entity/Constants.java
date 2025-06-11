@@ -13,4 +13,5 @@ public class Constants {
         public static final String work_order_find="/rest/workOrder/workOrder/list/";
 
     }
+    public static final int pageSize = 10;
 }

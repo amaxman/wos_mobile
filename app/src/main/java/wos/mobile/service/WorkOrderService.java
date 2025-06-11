@@ -33,4 +33,27 @@ public class WorkOrderService extends BasicRestService{
         if (jsonMsg==null) return JsonMsg.error(getString(R.string.server_parse_json_exception));
         return jsonMsg;
     }
+
+    /**
+     * 直接根据URL地址获取工单数据
+     * @param url 地址
+     * @return
+     */
+    public JsonMsg<Page<WorkOrderRestEntity>> page(String url) {
+        Map<String,Object> map=new HashMap<>();
+        map.put("sessionId", Property.sessionId);
+
+        String jsonString = HttpUtil.doPost(
+                url,
+                map,
+                "UTF-8");
+
+
+        if (StringUtil.isEmpty(jsonString)) {
+            return JsonMsg.error(getString(R.string.server_return_nothing));
+        }
+        JsonMsg<Page<WorkOrderRestEntity>> jsonMsg= JSONObject.parseObject(jsonString,new TypeReference<JsonMsg<Page<WorkOrderRestEntity>>>() {});
+        if (jsonMsg==null) return JsonMsg.error(getString(R.string.server_parse_json_exception));
+        return jsonMsg;
+    }
 }
