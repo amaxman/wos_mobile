@@ -38,6 +38,10 @@
         <activity
             android:name=".ui.WelcomeActivity"
             android:label="@string/welcome_name" />
+
+        <activity
+            android:name=".ui.workOrder.WorkOrderActivity"
+            android:label="@string/work_order" />
     </application>
 
 </manifest>

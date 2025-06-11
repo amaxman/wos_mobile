@@ -33,6 +33,7 @@ import wos.mobile.entity.JsonMsg;
 import wos.mobile.entity.Property;
 import wos.mobile.entity.auth.PermissionRestEntity;
 import wos.mobile.service.AuthRestService;
+import wos.mobile.ui.workOrder.WorkOrderActivity;
 import wos.mobile.util.BitmapUtil;
 import wos.mobile.util.CommonFunc;
 import wos.mobile.util.LogUtil;
@@ -116,8 +117,8 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
      */
     private void launchActivity(String funcCode) {
         switch (funcCode) {
-            case "robot":
-//                startActivity(new Intent(context, RobotActivity.class));
+            case "work_order":
+                startActivity(new Intent(context, WorkOrderActivity.class));
                 break;
             case "config_patrol_point": //点位配置
             case "mobile_user": //移动用户

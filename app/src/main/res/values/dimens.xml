@@ -3,4 +3,8 @@
     <dimen name="welcome">30sp</dimen>
     <dimen name="btn_nav_width">80dp</dimen>
     <dimen name="compAddrSize">10sp</dimen>
+    <dimen name="item_margin_default">5dp</dimen>
+    <dimen name="item_padding_bottom_default">5dp</dimen>
+    <dimen name="btn_height">30sp</dimen>
+    <dimen name="item_split_width_min">3dp</dimen>
 </resources>

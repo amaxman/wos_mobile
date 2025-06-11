@@ -84,6 +84,8 @@ public class LoginActivity extends ActivityEx implements View.OnClickListener{
                         editor.putString(CommonFunc.Config_SessionId, Property.sessionId);
                         editor.putString(CommonFunc.Config_StaffName, Property.staffName);
                         editor.commit();
+                        //此处必须用commit，不能使用apply。二者的主要区别在于是否阻塞式提交，commit确保保存数据，apply不确保一定保存成功
+                        //editor.apply();
 
                         Intent intent = new Intent(context, WelcomeActivity.class);
                         startActivity(intent);

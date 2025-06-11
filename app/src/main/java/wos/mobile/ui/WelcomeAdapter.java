@@ -142,7 +142,7 @@ public class WelcomeAdapter extends BasicAdapter<PermissionRestEntity> {
 
         String funcCode = permission.getFuncCode();
 
-        OnClickListener onClickListener=launchByFuncCode(0,funcCode);
+        OnClickListener onClickListener=launchByFuncCode(3,funcCode);
         holder.btnTitle.setText(permission.getTitle());
         holder.layout.setOnClickListener(onClickListener);
         holder.btnTitle.setOnClickListener(onClickListener);

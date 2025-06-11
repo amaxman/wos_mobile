@@ -41,6 +41,7 @@ import java.util.List;
 
 import wos.mobile.annotation.BindView;
 import wos.mobile.entity.Constants;
+import wos.mobile.entity.EnumAction;
 import wos.mobile.entity.Property;
 import wos.mobile.util.CommonFunc;
 import wos.mobile.util.DateUtils;
@@ -367,6 +368,13 @@ public abstract class ActivityEx extends FragmentActivity {
     protected Message getMessage(int what, Object obj) {
         Message message = new Message();
         message.what = what;
+        message.obj = obj;
+        return message;
+    }
+
+    protected Message getMessage(EnumAction what, Object obj) {
+        Message message = new Message();
+        message.what = what.ordinal();
         message.obj = obj;
         return message;
     }
