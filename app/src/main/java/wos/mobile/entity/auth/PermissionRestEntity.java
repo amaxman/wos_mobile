@@ -3,31 +3,27 @@ package wos.mobile.entity.auth;
 
 // 权限
 public class PermissionRestEntity {
-	private String funcCode = ""; // 功能编码
+	private String code = ""; // 功能编码
 	private String title = ""; //标题
 
-	private String imageUrl; //远程图片路径
-
-	private Integer orderNum; //排序
+	private String imagePath; //远程图片路径
 
 	public PermissionRestEntity() {
 
 	}
 
-
-
-	public PermissionRestEntity(String funcCode, String title, String imageUrl) {
-		this.funcCode = funcCode;
+	public PermissionRestEntity(String code, String title, String imagePath) {
+		this.code = code;
 		this.title = title;
-		this.imageUrl=imageUrl;
+		this.imagePath = imagePath;
 	}
 
-	public String getFuncCode() {
-		return funcCode;
+	public String getCode() {
+		return code;
 	}
 
-	public void setFuncCode(String funcCode) {
-		this.funcCode = funcCode;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getTitle() {
@@ -38,20 +34,11 @@ public class PermissionRestEntity {
 		this.title = title;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getImagePath() {
+		return imagePath;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
-
-	public Integer getOrderNum() {
-		return orderNum;
-	}
-
-	public void setOrderNum(Integer orderNum) {
-		this.orderNum = orderNum;
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 }

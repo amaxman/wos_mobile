@@ -106,7 +106,7 @@ public abstract class ActivityEx extends FragmentActivity {
     protected Context context;
     protected int pageNo = 1, pageSize = Constants.pageSize;
 
-    protected long count = 0;
+    protected int count = 0;
 
     protected String errMsg = "";
 
@@ -365,13 +365,6 @@ public abstract class ActivityEx extends FragmentActivity {
      * @param obj  数据
      * @return 句柄消息
      */
-    protected Message getMessage(int what, Object obj) {
-        Message message = new Message();
-        message.what = what;
-        message.obj = obj;
-        return message;
-    }
-
     protected Message getMessage(EnumAction what, Object obj) {
         Message message = new Message();
         message.what = what.ordinal();

@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import wos.mobile.R;
+import wos.mobile.entity.EnumAction;
 import wos.mobile.entity.auth.PermissionRestEntity;
 import wos.mobile.service.BasicRestService;
 import wos.mobile.util.StringUtil;
@@ -109,12 +110,12 @@ public class WelcomeAdapter extends BasicAdapter<PermissionRestEntity> {
 
         ExecutorService executorService = Executors.newFixedThreadPool(3);
         executorService.execute(() -> {
-            String funcCode = permission.getFuncCode(),imagePath= permission.getImageUrl();
+            String code = permission.getCode(),imagePath= permission.getImagePath();
 
             Bitmap btImg = null;
             if (StringUtil.isNotEmpty(imagePath)) {
                 try {
-                    String imageFilePath=downloadFile(imagePath,context.getFilesDir().getPath()+"/images/welcome");
+                    String imageFilePath=downloadFile(BasicRestService.restServer+imagePath,context.getFilesDir().getPath()+"/images/welcome");
                     File file=new File(imageFilePath);
                     if (file.exists()) {
                         btImg=BitmapFactory.decodeFile(imageFilePath);
@@ -129,7 +130,7 @@ public class WelcomeAdapter extends BasicAdapter<PermissionRestEntity> {
             JSONObject json=new JSONObject();
             json.put("btImg",btImg);
             json.put("btnPermission",holder.btnPermission);
-            json.put("funCode",funcCode);
+            json.put("code",code);
             Message message=new Message();
             message.obj=json;
             handlerAdapter.sendMessage(message);
@@ -140,9 +141,9 @@ public class WelcomeAdapter extends BasicAdapter<PermissionRestEntity> {
         executorService.shutdown();
         //#endregion
 
-        String funcCode = permission.getFuncCode();
+        String funcCode = permission.getCode();
 
-        OnClickListener onClickListener=launchByFuncCode(3,funcCode);
+        OnClickListener onClickListener=launchByFuncCode(EnumAction.launch, funcCode);
         holder.btnTitle.setText(permission.getTitle());
         holder.layout.setOnClickListener(onClickListener);
         holder.btnTitle.setOnClickListener(onClickListener);
@@ -151,9 +152,9 @@ public class WelcomeAdapter extends BasicAdapter<PermissionRestEntity> {
         return convertView;
     }
 
-    private OnClickListener launchByFuncCode(final int what,final String funcCode) {
+    private OnClickListener launchByFuncCode(final EnumAction what,final String funcCode) {
         return (v)->{
-            Message message=Message.obtain(handler, what, funcCode);
+            Message message=Message.obtain(handler, what.ordinal(), funcCode);
             handler.sendMessage(message);
         };
     }

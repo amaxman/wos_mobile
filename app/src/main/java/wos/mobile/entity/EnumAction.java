@@ -3,6 +3,12 @@ package wos.mobile.entity;
 public enum EnumAction {
     login("登陆")
     ,login_ui("登陆UI响应")
+    ,logout("注销")
+    ,logout_ui("注销UI")
+    ,load_permission("加载权限")
+    ,load_permission_ui("加载权限界面")
+    ,acton("动作")
+    ,launch("运行")
     ,add("增加")
     ,add_ui("增加UI响应")
     ,add_activity("增加启动界面")

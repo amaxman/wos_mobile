@@ -33,11 +33,8 @@ public class CommonFunc {
 
 	public static final String CONFIG = "USER_CONFIG";
 
-	public static final String Config_UserId = "userId";
-	public static final String Config_CompId = "compId";
 	public static final String Config_SessionId = "sessionId";
 	public static final String Config_StaffName = "staffName";
-	public static final String Config_CompName = "compName";
 
 
 	public static String getLocalIpAddress() {

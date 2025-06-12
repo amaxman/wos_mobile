@@ -46,7 +46,6 @@ public class WosMobileApp extends Application {
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(CommonFunc.Config_SessionId);
         editor.remove(CommonFunc.Config_StaffName);
-        editor.remove(CommonFunc.Config_CompName);
         editor.apply();
         System.exit(0);
     }

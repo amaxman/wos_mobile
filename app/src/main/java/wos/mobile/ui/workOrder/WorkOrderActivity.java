@@ -39,15 +39,6 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
 
     private WorkOrderAdapter adapter;
 
-    /**
-     *
-     */
-    private String nextPageURL;
-
-    /**
-     * 下一页地址
-     */
-    private String prePageURL;
     //#endregion
 
     //#region handle
@@ -57,6 +48,7 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
             EnumAction action = EnumAction.getByOrdinal(message.what);
             switch (action) {
                 case query:
+                    pageNo=1;
                     queryData();
                     break;
                 case query_ui:
@@ -64,16 +56,17 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
                     JsonMsg<Page<WorkOrderRestEntity>> clientRestPageJson = (JsonMsg<Page<WorkOrderRestEntity>>) message.obj;
                     showToast(clientRestPageJson.getMsg());
                     if (!clientRestPageJson.isMsgType()) {
-                        nextPageURL = null;
-                        prePageURL = null;
+                        pageNo=1;
                         reloadBtnPage();
                         return;
                     }
                     list.clear();
-                    list.addAll(clientRestPageJson.getData().getList());
+                    Page<WorkOrderRestEntity> page=clientRestPageJson.getData();
+                    list.addAll(page.getList());
                     adapter.notifyDataSetChanged();
-                    nextPageURL = clientRestPageJson.getData().getNext();
-                    prePageURL = clientRestPageJson.getData().getPrevious();
+                    pageNo=page.getPageNo();
+                    pageSize=page.getPageSize();
+                    count=page.getCount();
                     reloadBtnPage();
                     break;
                 case edit_activity:
@@ -175,9 +168,11 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
         } else if (view == btnAction) {
 //            activityResultLauncher.launch(new Intent(context, PathEditActivity.class));
         } else if (view == btnNext) {
-            page(nextPageURL);
+            pageNo--;
+            queryData();
         } else if (view==btnPre) {
-            page(prePageURL);
+            pageNo++;
+            queryData();
         }
     }
     //#endregion
@@ -227,7 +222,7 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
         hideKeyword(txKeyword);
         new Thread(() -> {
             String keyword = txKeyword.getText().toString().trim();
-            JsonMsg<Page<WorkOrderRestEntity>> jsonMsg = service.find(keyword, pageSize, 0);
+            JsonMsg<Page<WorkOrderRestEntity>> jsonMsg = service.find(keyword, pageNo, pageSize);
             handler.sendMessage(getMessage(EnumAction.query_ui, jsonMsg));
         }).start();
     }
@@ -242,8 +237,22 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
     }
 
     private void reloadBtnPage() {
-        btnPre.setVisibility(StringUtil.isNotEmpty(prePageURL) ? View.VISIBLE : View.INVISIBLE);
-        btnNext.setVisibility(StringUtil.isNotEmpty(nextPageURL) ? View.VISIBLE : View.INVISIBLE);
+        if (count==0) {
+            btnPre.setVisibility(View.INVISIBLE);
+            btnNext.setVisibility(View.INVISIBLE);
+        } else {
+            if (pageNo==1) {
+                btnPre.setVisibility(View.INVISIBLE);
+            } else {
+                btnPre.setVisibility(View.VISIBLE);
+            }
+
+            if (pageNo*pageSize>=count) {
+                btnNext.setVisibility(View.INVISIBLE);
+            } else {
+                btnNext.setVisibility(View.VISIBLE);
+            }
+        }
     }
     //#endregion
 

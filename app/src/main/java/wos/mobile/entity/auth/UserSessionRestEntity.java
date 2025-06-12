@@ -6,20 +6,14 @@ public class UserSessionRestEntity {
     /**
      * 令牌
      */
-    @JSONField(name = "session_id")
+    @JSONField(name = "sessionId")
     private String sessionId;
 
     /**
      * 登陆用户名
      */
-    @JSONField(name = "username")
-    private String userName;
-
-    /**
-     * 用户全名
-     */
-    @JSONField(name = "full_name")
-    private String fullName;
+    @JSONField(name = "staffName")
+    private String staffName;
 
     public String getSessionId() {
         return sessionId;
@@ -29,19 +23,11 @@ public class UserSessionRestEntity {
         this.sessionId = sessionId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getStaffName() {
+        return staffName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
     }
 }

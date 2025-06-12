@@ -29,6 +29,7 @@ import wos.mobile.ActivityEx;
 import wos.mobile.R;
 import wos.mobile.annotation.AnnotateUtil;
 import wos.mobile.annotation.BindView;
+import wos.mobile.entity.EnumAction;
 import wos.mobile.entity.JsonMsg;
 import wos.mobile.entity.Property;
 import wos.mobile.entity.auth.PermissionRestEntity;
@@ -71,26 +72,28 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         @Override
         public void handleMessage(@NonNull Message message) {
             String funcCode = String.valueOf(message.obj);
-            int what = message.what;
+            EnumAction what = EnumAction.getByOrdinal(message.what);
+
             switch (what) {
-                case 0:
-                    showProgressDialog(R.string.access_loading);
-                    new Thread(() -> {
-                        loadPermission();
-                    }).start();
+                case load_permission:
+                    load_permission();
                     break;
-                case 1:
-                    JsonMsg<List<PermissionRestEntity>> jsonMsgAccess = (JsonMsg<List<PermissionRestEntity>>) message.obj;
-                    showPermission(jsonMsgAccess);
-                    closeProgressDialog();
+                case load_permission_ui:
+                    load_permission_ui(message);
                     break;
-                case 2:
+                case acton:
                     doAction(funcCode);
                     break;
-                case 3:
+                case launch:
                     launchActivity(funcCode);
                     break;
-                case -1:
+                case logout:
+                   logout2Server();
+                    break;
+                case logout_ui:
+                    logout();
+                    break;
+                case toast:
                     closeProgressDialog();
                     showToast(String.valueOf(message.obj));
                     break;
@@ -102,34 +105,9 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         }
     };
 
-    private void doAction(String funcCode) {
-        switch (funcCode) {
-            case "reload":
-                handler.sendEmptyMessage(0);
-                break;
-        }
-    }
 
-    /**
-     * 启动窗体
-     *
-     * @param funcCode 功能码
-     */
-    private void launchActivity(String funcCode) {
-        switch (funcCode) {
-            case "work_order":
-                startActivity(new Intent(context, WorkOrderActivity.class));
-                break;
-            case "config_patrol_point": //点位配置
-            case "mobile_user": //移动用户
-            case "setting": //系统设定
-            case "emergency":   //emergency
-                break;
-            default:
-                handler.sendMessage(getMessage(-1, getString(R.string.welcome_operate_undefined)));
-                break;
-        }
-    }
+
+
     //#endregion
 
     //#region 系统事件
@@ -148,7 +126,7 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         initListener();
         super.onResume();
 
-        handler.sendEmptyMessage(0);
+        handler.sendEmptyMessage(EnumAction.load_permission.ordinal());
 
     }
 
@@ -198,11 +176,11 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         Message message=new Message();
         try {
             message.obj=authRestService.getAccessFunc(Property.sessionId);
-            message.what=1;
+            message.what=EnumAction.load_permission_ui.ordinal();
 
         } catch (Exception ex) {
             message.obj=ex.getMessage();
-            message.what=-1;
+            message.what=EnumAction.toast.ordinal();
         }
         handler.sendMessage(message);
 
@@ -217,7 +195,7 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         try {
             if (json == null) return;
             if (!json.isMsgType()) {
-                handler.sendMessage(getMessage(-1, json.getMsg()));
+                handler.sendMessage(getMessage(EnumAction.toast, json.getMsg()));
                 return;
             }
             List<PermissionRestEntity> funcCodeList = json.getData();
@@ -225,7 +203,7 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
                 permissionList.add(item);
             });
         } catch (Exception ex) {
-            handler.sendMessage(getMessage(-1, ex.getMessage()));
+            handler.sendMessage(getMessage(EnumAction.toast, ex.getMessage()));
         }
 
 
@@ -267,7 +245,7 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         listenerLogout = (dialog, which) -> {
             switch (which) {
                 case AlertDialog.BUTTON_POSITIVE:
-                    logout();
+                    handler.sendEmptyMessage(EnumAction.logout.ordinal());
                     break;
                 case AlertDialog.BUTTON_NEGATIVE:
                     LogUtil.i("Cancel to logout");
@@ -278,23 +256,7 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         };
     }
 
-    private void logout() {
-        SharedPreferences sp = getSharedPreferences(
-                CommonFunc.CONFIG, 0);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.remove(CommonFunc.Config_UserId);
-        editor.remove(CommonFunc.Config_SessionId);
-        editor.remove(CommonFunc.Config_StaffName);
-        editor.remove(CommonFunc.Config_CompName);
-        editor.apply();
 
-        Property.sessionId = "";
-        Property.staffName = "";
-
-        Intent intent = new Intent(context, LoginActivity.class);
-        startActivity(intent);
-        this.finish();
-    }
 
     /**
      * 检查系统权限
@@ -308,7 +270,7 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission
                     .WRITE_EXTERNAL_STORAGE)) {
                 //选择不开启权限的时候，提示用户
-                handler.sendMessage(getMessage(-1, getString(R.string.system_require_permission)));
+                handler.sendMessage(getMessage(EnumAction.toast, getString(R.string.system_require_permission)));
             }
             //申请权限
             ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, requestCode);
@@ -329,15 +291,7 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         super.onDestroy();
     }
 
-
-    protected Message getMessage(int what, Object obj) {
-        Message message = new Message();
-        message.what = what;
-        message.obj = obj;
-        return message;
-    }
     //#endregion
-
 
     //#region action
 
@@ -353,7 +307,7 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
             int menuItemId = item.getItemId();
             if (menuItemId == R.id.menuRefresh) {
                 showProgressDialog(R.string.access_loading);
-                handler.sendEmptyMessage(0);
+                handler.sendEmptyMessage(EnumAction.load_permission.ordinal());
                 return true;
             } else if (menuItemId == R.id.menuChangePassword) {
                 launchActivity("passwordChange");
@@ -363,6 +317,87 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         });
 
         popupMenu.show();
+    }
+    //#endregion
+
+    //#region 授权
+    private void load_permission() {
+        showProgressDialog(R.string.access_loading);
+        new Thread(() -> {
+            loadPermission();
+        }).start();
+    }
+
+    private void load_permission_ui(Message message) {
+        JsonMsg<List<PermissionRestEntity>> jsonMsgAccess = (JsonMsg<List<PermissionRestEntity>>) message.obj;
+        showPermission(jsonMsgAccess);
+        closeProgressDialog();
+    }
+
+    /**
+     * 自服务器注销登陆
+     */
+    private void logout2Server() {
+        new Thread(()->{
+            AuthRestService authRestService=new AuthRestService();
+            Message message=new Message();
+            try {
+                message.obj=authRestService.logout(Property.sessionId);
+                message.what= EnumAction.logout_ui.ordinal();
+            } catch (Exception ex) {
+                message.obj=ex.getMessage();
+                message.what=EnumAction.toast.ordinal();
+            }
+            handler.sendMessage(message);
+
+
+        }).start();
+    }
+
+    private void logout() {
+
+        SharedPreferences sp = getSharedPreferences(
+                CommonFunc.CONFIG, 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.remove(CommonFunc.Config_SessionId);
+        editor.remove(CommonFunc.Config_StaffName);
+        editor.apply();
+
+        Property.sessionId = "";
+        Property.staffName = "";
+
+        Intent intent = new Intent(context, LoginActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    private void doAction(String funcCode) {
+        switch (funcCode) {
+            case "reload":
+                handler.sendEmptyMessage(EnumAction.load_permission.ordinal());
+                break;
+        }
+    }
+
+    /**
+     * 启动窗体
+     *
+     * @param funcCode 功能码
+     */
+    private void launchActivity(String funcCode) {
+        switch (funcCode) {
+            case "work_order":
+                startActivity(new Intent(context, WorkOrderActivity.class));
+                break;
+            case "config_patrol_point": //点位配置
+            case "mobile_user": //移动用户
+            case "setting": //系统设定
+            case "emergency":   //emergency
+                break;
+            default:
+                handler.sendMessage(getMessage(EnumAction.toast, getString(R.string.welcome_operate_undefined)));
+                break;
+        }
     }
     //#endregion
 }

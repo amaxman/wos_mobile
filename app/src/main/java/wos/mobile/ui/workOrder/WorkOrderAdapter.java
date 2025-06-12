@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import wos.mobile.entity.EnumAction;
 import wos.mobile.entity.workOrder.WorkOrderRestEntity;
 import wos.mobile.R;
 import wos.mobile.util.DateUtils;
-import wos.mobile.util.StringUtil;
 import wos.mobile.widget.LeftSlideRemoveAdapter;
 
 public class WorkOrderAdapter extends LeftSlideRemoveAdapter<WorkOrderRestEntity> {
@@ -46,6 +46,8 @@ public class WorkOrderAdapter extends LeftSlideRemoveAdapter<WorkOrderRestEntity
             holder.labContent = (TextView) convertView.findViewById(R.id.labContent);
             holder.labStartTime = (TextView) convertView.findViewById(R.id.labStartTime);
             holder.labEndTime = (TextView) convertView.findViewById(R.id.labEndTime);
+            holder.labCate = (TextView) convertView.findViewById(R.id.labCate);
+            holder.labLevel = (TextView) convertView.findViewById(R.id.labLevel);
             holder.btnModify = (Button) convertView.findViewById(R.id.btnModify);
             holder.btnDeleteItem = (Button) convertView.findViewById(R.id.btnDeleteItem);
 
@@ -71,16 +73,18 @@ public class WorkOrderAdapter extends LeftSlideRemoveAdapter<WorkOrderRestEntity
 
         holder.labMain.setText(entity.getTitle());
         holder.labContent.setText(entity.getContent());
-        holder.labStartTime.setText(DateUtils.formatDate(entity.getStarTime(),"yyyy-MM-dd HH:mm"));
+        holder.labStartTime.setText(DateUtils.formatDate(entity.getStartTime(),"yyyy-MM-dd HH:mm"));
         holder.labEndTime.setText(DateUtils.formatDate(entity.getEndTime(),"yyyy-MM-dd HH:mm"));
+        holder.labCate.setText(entity.getCateName());
+        holder.labLevel.setText(entity.getLevelName());
 
 
         holder.btnModify.setOnClickListener((v)->{
-            Message message=getMessage(2,entity.getId());
+            Message message=getMessage(EnumAction.launch,entity.getId());
             handler.sendMessage(message);
         });
         holder.btnDeleteItem.setOnClickListener((v)->{
-            Message message=getMessage(1,entity);
+            Message message=getMessage(EnumAction.delete,entity);
             handler.sendMessage(message);
         });
 
@@ -92,7 +96,7 @@ public class WorkOrderAdapter extends LeftSlideRemoveAdapter<WorkOrderRestEntity
     }
 
     static class ViewHolder {
-        TextView labMain,labContent,labStartTime,labEndTime;
+        TextView labMain,labContent,labStartTime,labEndTime,labCate,labLevel;
         LinearLayout layoutArrowRight;
         WorkOrderRestEntity entity;
 

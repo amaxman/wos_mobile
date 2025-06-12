@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.List;
 
 import wos.mobile.R;
+import wos.mobile.entity.EnumAction;
 import wos.mobile.util.LogUtil;
 import wos.mobile.util.StringUtil;
 import wos.mobile.util.DownloadHelper;
@@ -121,9 +122,9 @@ public abstract class BasicAdapter<T> extends BaseAdapter {
         return bitmap;
     }
 
-    protected Message getMessage(int what, Object obj) {
+    protected Message getMessage(EnumAction what, Object obj) {
         Message message=new Message();
-        message.what=what;
+        message.what=what.ordinal();
         message.obj=obj;
         return message;
     }

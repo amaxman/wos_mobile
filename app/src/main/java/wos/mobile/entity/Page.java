@@ -4,54 +4,39 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Page<T> implements Serializable {
-    private String next;
-    private String previous;
-    private long count;
-    private int limit;
-    private int offset;
+
+    private int count;
+    private int pageNo;
+    private int pageSize;
     private List<T> list;
 
     public Page() {
     }
 
-    public String getNext() {
-        return next;
-    }
 
-    public void setNext(String next) {
-        this.next = next;
-    }
 
-    public String getPrevious() {
-        return previous;
-    }
-
-    public void setPrevious(String previous) {
-        this.previous = previous;
-    }
-
-    public long getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(long count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
-    public int getLimit() {
-        return limit;
+    public int getPageNo() {
+        return pageNo;
     }
 
-    public void setLimit(int limit) {
-        this.limit = limit;
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
     }
 
-    public int getOffset() {
-        return offset;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public void setOffset(int offset) {
-        this.offset = offset;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public List<T> getList() {

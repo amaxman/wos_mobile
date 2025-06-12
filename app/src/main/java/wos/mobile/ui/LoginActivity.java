@@ -73,14 +73,13 @@ public class LoginActivity extends ActivityEx implements View.OnClickListener{
                     if (jsonMsg.isMsgType()) {
                         UserSessionRestEntity userSessionRest = jsonMsg.getData();
                         Property.sessionId = userSessionRest.getSessionId();
-                        Property.staffName = userSessionRest.getFullName();
+                        Property.staffName = userSessionRest.getStaffName();
 
-                        showToast(getString(R.string.login_welcome) + userSessionRest.getFullName(), Toast.LENGTH_SHORT);
+                        showToast(getString(R.string.login_welcome) + userSessionRest.getStaffName(), Toast.LENGTH_SHORT);
 
                         SharedPreferences sp = getSharedPreferences(
                                 CommonFunc.CONFIG, 0);
                         SharedPreferences.Editor editor = sp.edit();
-                        editor.putString(CommonFunc.Config_UserId, userSessionRest.getUserName());
                         editor.putString(CommonFunc.Config_SessionId, Property.sessionId);
                         editor.putString(CommonFunc.Config_StaffName, Property.staffName);
                         editor.commit();

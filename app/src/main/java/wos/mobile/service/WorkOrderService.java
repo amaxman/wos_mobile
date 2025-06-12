@@ -16,14 +16,14 @@ import wos.mobile.util.HttpUtil;
 import wos.mobile.util.StringUtil;
 
 public class WorkOrderService extends BasicRestService{
-    public JsonMsg<Page<WorkOrderRestEntity>> find(String keyword, int limit, int offset) {
+    public JsonMsg<Page<WorkOrderRestEntity>> find(String keyword, int pageNo, int pageSize) {
         Map<String,Object> map=new HashMap<>();
         map.put("sessionId", Property.sessionId);
-        map.put("search", keyword);
-        map.put("limit", limit);
-        map.put("offset", offset);
+        map.put("keyword", keyword);
+        map.put("pageNo", pageNo);
+        map.put("pageSize", pageSize);
         String jsonString = HttpUtil.doPost(
-                BasicRestService.restServer+ Constants.RestConfig.work_order_find,
+                BasicRestService.restServer+ Constants.RestConfig.work_order_page,
                 map,
                 "UTF-8");
         if (StringUtil.isEmpty(jsonString)) {

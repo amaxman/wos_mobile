@@ -11,6 +11,7 @@ import java.util.Map;
 import wos.mobile.R;
 import wos.mobile.entity.Constants;
 import wos.mobile.entity.JsonMsg;
+import wos.mobile.entity.Property;
 import wos.mobile.entity.auth.PermissionRestEntity;
 import wos.mobile.entity.auth.UserSessionRestEntity;
 import wos.mobile.util.HttpUtil;
@@ -26,8 +27,8 @@ public class AuthRestService extends BasicRestService {
      */
     public JsonMsg<UserSessionRestEntity> login(String userId, String userPassword) {
         Map<String, Object> map = new HashMap<>();
-        map.put("username", userId);
-        map.put("password", userPassword);
+        map.put("userId", userId);
+        map.put("userPassword", userPassword);
         String jsonString = HttpUtil.doPost(
                 BasicRestService.restServer + Constants.RestConfig.login,
                 map,
@@ -70,7 +71,6 @@ public class AuthRestService extends BasicRestService {
 
         HashMap<String, Object> hm = new HashMap<>();
         hm.put("sessionId", sessionId);
-        hm.put("format", "json");
         String jsonString = HttpUtil.doPost(
                 url,
                 hm,
@@ -78,22 +78,26 @@ public class AuthRestService extends BasicRestService {
         if (StringUtil.isEmpty(jsonString)) {
             return JsonMsg.error(getString(R.string.except_server_return_nothing));
         }
-        JsonMsg<List<JSONObject>> jsonMsg = JSONObject.parseObject(jsonString, new TypeReference<JsonMsg<List<JSONObject>>>() {
+        JsonMsg<List<PermissionRestEntity>> jsonMsg = JSONObject.parseObject(jsonString, new TypeReference<JsonMsg<List<PermissionRestEntity>>>() {
         });
         if (jsonMsg == null) return JsonMsg.error(getString(R.string.server_parse_json_exception));
-
-        List<PermissionRestEntity> permissionRestEntityList = new ArrayList<>();
-        jsonMsg.getData().forEach(item -> {
-            JSONObject mobileAccess = item.getJSONObject("mobile_access");
-            PermissionRestEntity permissionRestEntity = new PermissionRestEntity();
-            permissionRestEntity.setFuncCode(mobileAccess.getString("access_code"));
-            permissionRestEntity.setTitle(mobileAccess.getString("access_title"));
-            permissionRestEntity.setImageUrl(mobileAccess.getString("access_icon"));
-            permissionRestEntity.setOrderNum(mobileAccess.getInteger("access_order_num"));
-            permissionRestEntityList.add(permissionRestEntity);
-        });
-        return JsonMsg.success(permissionRestEntityList, jsonMsg.getMsg());
+        return jsonMsg;
     }
 
+    public JsonMsg<Void> logout(String sessionId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("sessionId", sessionId);
+        String jsonString = HttpUtil.doPost(
+                BasicRestService.restServer + Constants.RestConfig.logout,
+                map,
+                "UTF-8");
+        if (StringUtil.isEmpty(jsonString)) {
+            return JsonMsg.error(getString(R.string.except_server_return_nothing));
+        }
+        JsonMsg<Void> jsonMsg = JSONObject.parseObject(jsonString, new TypeReference<JsonMsg<Void>>() {
+        });
+        if (jsonMsg == null) return JsonMsg.error(getString(R.string.server_parse_json_exception));
+        return jsonMsg;
+    }
 
 }

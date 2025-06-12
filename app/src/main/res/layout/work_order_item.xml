@@ -25,30 +25,101 @@
             android:layout_marginTop="5dp"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/labContent"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:textSize="12sp" />
-        <TextView
-            android:id="@+id/labStartTime"
+            >
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_content"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+            <TextView
+                android:id="@+id/labContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:textSize="12sp" />
-        <TextView
-            android:id="@+id/labEndTime"
+            >
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_startTime"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+            <TextView
+                android:id="@+id/labStartTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:textSize="12sp" />
+            >
+
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_endTime"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+
+            <TextView
+                android:id="@+id/labEndTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_cate"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+
+            <TextView
+                android:id="@+id/labCate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_level"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+
+            <TextView
+                android:id="@+id/labLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
