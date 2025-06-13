@@ -127,9 +127,12 @@ public class WorkOrderEditActivity extends ActivityEx implements View.OnClickLis
         ArrayAdapter<KeyValue<String,String>> arrAdapterCate = new ArrayAdapter<>(this, R.layout.item_selected, cateCodeList);
         workOrderCateCode.setAdapter(arrAdapterCate);
         workOrderCateCode.setPrompt("请选择：");
-        if (!selectSpin(workOrderCateCode,cateCodeList,this.workOrderRestEntity.getCateCode())) {
-            workOrderCateCode.setSelection(0);
+        if (this.workOrderRestEntity!=null) {
+            if (!selectSpin(workOrderCateCode,cateCodeList,this.workOrderRestEntity.getCateCode())) {
+                workOrderCateCode.setSelection(0);
+            }
         }
+
         //#endregion
 
         //#region 工单紧急程度
@@ -137,9 +140,12 @@ public class WorkOrderEditActivity extends ActivityEx implements View.OnClickLis
         ArrayAdapter<KeyValue<String,String>> arrAdapterLevel = new ArrayAdapter<>(this, R.layout.item_selected, levelCodeList);
         workOrderLevelCode.setAdapter(arrAdapterLevel);
         workOrderLevelCode.setPrompt("请选择：");
-        if (!selectSpin(workOrderLevelCode,levelCodeList,this.workOrderRestEntity.getLevelCode())) {
-            workOrderLevelCode.setSelection(0);
+        if (this.workOrderRestEntity!=null) {
+            if (!selectSpin(workOrderLevelCode,levelCodeList,this.workOrderRestEntity.getLevelCode())) {
+                workOrderLevelCode.setSelection(0);
+            }
         }
+
         //#endregion
 
         showWorkOrder();

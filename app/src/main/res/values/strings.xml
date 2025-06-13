@@ -100,6 +100,14 @@
 
     <string name="work_order_edit">编辑工单</string>
 
+    <string name="work_order_staff">工单员工</string>
+    <string name="work_order_staff_name">姓名:</string>
+    <string name="work_order_staff_progress">进度:</string>
+    <string name="work_order_staff_progress_waiting">未开始</string>
+    <string name="work_order_staff_progress_completed">已完成</string>
+
+    <string name="work_order_staff_add">添加员工</string>
+
 
     <!-- 异常 -->
     <string name="exp_usernameempty">账号不能为空</string>

@@ -78,4 +78,9 @@
         <item name="android:background">@drawable/edittext_bg</item>
     </style>
 
+    <style name="EditFragDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+    </style>
+
 </resources>

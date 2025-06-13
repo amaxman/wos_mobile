@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="10dp"
+    android:background="@color/white"
+    android:minHeight="40dip"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.74"
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/titlebar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <include layout="@layout/title_bar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/cell_min_height"
+            android:layout_marginRight="10sp"
+            >
+
+            <TextView
+                android:layout_width="@dimen/item_label_width_edit"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:text="@string/work_order_staff_name"
+                style="@style/cell_lab_text" />
+
+            <Spinner
+                android:id="@+id/staffSelector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="left"
+                style="@style/cell_edit_text"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

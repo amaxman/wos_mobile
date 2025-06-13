@@ -20,6 +20,7 @@ public enum EnumAction {
     ,query("查询")
     ,query_ui("查询UI响应")
     ,detail_activity("明细列表界面")
+    ,reload("刷新")
     ,toast("吐司显示")
     ;
 

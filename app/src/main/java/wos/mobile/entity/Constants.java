@@ -10,6 +10,7 @@ public class Constants {
         public static final String login = "/rest/auth/login";
         public static final String login_token = "/rest/auth/loginBySession";
         public static final String logout = "/rest/auth/logout";
+        public static final String system_getAllUser = "/rest/system/user/getAllUser";
         public static final String auth_permission="/rest/auth/getAllPermission";
         public static final String work_order_page="/rest/workOrder/page";
         public static final String work_order_delete="/rest/workOrder/delete";
