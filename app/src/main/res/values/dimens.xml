@@ -9,4 +9,7 @@
     <dimen name="item_split_width_min">3dp</dimen>
     <dimen name="item_label_width">80dp</dimen>
     <dimen name="item_label_padding_end">5dp</dimen>
+    <dimen name="cell_min_height">50sp</dimen>
+
+    <dimen name="item_label_width_edit">100dp</dimen>
 </resources>

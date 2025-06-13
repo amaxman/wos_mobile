@@ -354,6 +354,18 @@ public abstract class ActivityEx extends FragmentActivity {
     }
     //#endregion
 
+    //#region 文本
+
+    /**
+     * 获取文本内容
+     * @param textView 文本控件
+     * @return 控件值
+     */
+    protected String getTextViewText(TextView textView) {
+        if (textView==null) return "";
+        return textView.getText().toString();
+    }
+    //#endregion
     //#endregion
 
     //#region 句柄消息

@@ -14,7 +14,7 @@
 
     <!-- 程序 -->
     <string name="version">版本号：1.1.B250108</string>
-    <string name="compAddr">新非时代科技有限公司</string>
+    <string name="compAddr">时代科技有限公司</string>
 
     <!-- 通用 -->
     <string name="OK">确定</string>
@@ -88,7 +88,7 @@
     <string name="welcome_operate_undefined">未知的操作</string>
     <string name="welcome_undefined_func_code">未定义的功能码</string>
 
-    <!-- 登录 -->
+    <!-- 工单 -->
     <string name="work_order">工单</string>
     <string name="work_order_title">标题:</string>
     <string name="work_order_content">内容:</string>
@@ -96,6 +96,9 @@
     <string name="work_order_endTime">结束时间:</string>
     <string name="work_order_cate">类别:</string>
     <string name="work_order_level">紧急度:</string>
+    <string name="work_order_btnUploadImages">上传图片:</string>
+
+    <string name="work_order_edit">编辑工单</string>
 
 
     <!-- 异常 -->

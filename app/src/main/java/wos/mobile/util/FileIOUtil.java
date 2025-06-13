@@ -8,8 +8,11 @@
 
 package wos.mobile.util;
 
+import android.graphics.Bitmap;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -215,13 +218,14 @@ public class FileIOUtil {
 
     /**
      * 获取文件扩展名
+     *
      * @param filename
      * @return 文件扩展名，不包括.
      */
     public static String getExtensionName(String filename) {
         if ((filename != null) && (filename.length() > 0)) {
             int dot = filename.lastIndexOf('.');
-            if ((dot >-1) && (dot < (filename.length() - 1))) {
+            if ((dot > -1) && (dot < (filename.length() - 1))) {
                 return filename.substring(dot + 1);
             }
         }
@@ -230,41 +234,39 @@ public class FileIOUtil {
 
     /**
      * 通过流方式复制文件
+     *
      * @param srcPathStr 起始位置
      * @param desPathStr 目标位置
      */
-    public static void copy(String srcPathStr, String desPathStr)
-    {
-        File file=new File(desPathStr);
+    public static void copy(String srcPathStr, String desPathStr) {
+        File file = new File(desPathStr);
         if (file.exists()) {
             file.deleteOnExit();
         } else {
-            File fileParent=new File(file.getParent());
+            File fileParent = new File(file.getParent());
             fileParent.mkdirs();
         }
-        try
-        {
+        try {
             FileInputStream fis = new FileInputStream(srcPathStr);//创建输入流对象
             FileOutputStream fos = new FileOutputStream(desPathStr); //创建输出流对象
-            byte datas[] = new byte[1024*8];//创建搬运工具
+            byte datas[] = new byte[1024 * 8];//创建搬运工具
             int len = 0;//创建长度
-            while((len = fis.read(datas))!=-1)//循环读取数据
+            while ((len = fis.read(datas)) != -1)//循环读取数据
             {
-                fos.write(datas,0,len);
+                fos.write(datas, 0, len);
             }
             fis.close();//释放资源
             fos.close();//释放资源
 
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * 获取文件MD5编码
+     *
      * @param path
      * @return
      */
@@ -288,5 +290,46 @@ public class FileIOUtil {
             e.printStackTrace();
         }
         return bi.toString(16);
+    }
+
+    private static char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7',
+            '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+    public static String getBitmapMD5(Bitmap bm) {
+        return getBytesMD5(bitmapToBytes(bm));
+    }
+
+    public static String getBytesMD5(byte[] bytes) {
+        try {
+
+            // 获得MD5摘要算法的 MessageDigest 对象
+            MessageDigest mdInst = MessageDigest.getInstance("MD5");
+
+            // 使用指定的字节更新摘要
+            mdInst.update(bytes);
+
+            // 获得密文
+            byte[] md = mdInst.digest();
+
+            // 把密文转换成十六进制的字符串形式
+            int j = md.length;
+            char str[] = new char[j * 2];
+            int k = 0;
+            for (int i = 0; i < j; i++) {
+                byte byte0 = md[i];
+                str[k++] = hexDigits[byte0 >>> 4 & 0xf];
+                str[k++] = hexDigits[byte0 & 0xf];
+            }
+            return new String(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static byte[] bitmapToBytes(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
     }
 }

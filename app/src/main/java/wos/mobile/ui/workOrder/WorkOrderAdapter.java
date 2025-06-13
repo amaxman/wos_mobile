@@ -58,7 +58,7 @@ public class WorkOrderAdapter extends LeftSlideRemoveAdapter<WorkOrderRestEntity
                     WorkOrderRestEntity _entity=holder.entity;
                     if (_entity==null) return;
                     Message message=new Message();
-                    message.what= 2;
+                    message.what= EnumAction.edit_activity.ordinal();
                     message.obj=_entity.getId();
                     handler.sendMessage(message);
                 });
@@ -80,7 +80,7 @@ public class WorkOrderAdapter extends LeftSlideRemoveAdapter<WorkOrderRestEntity
 
 
         holder.btnModify.setOnClickListener((v)->{
-            Message message=getMessage(EnumAction.launch,entity.getId());
+            Message message=getMessage(EnumAction.edit_activity,entity);
             handler.sendMessage(message);
         });
         holder.btnDeleteItem.setOnClickListener((v)->{

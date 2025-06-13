@@ -70,9 +70,9 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
                     reloadBtnPage();
                     break;
                 case edit_activity:
-//                    Intent intentEdit = new Intent(context, PathEditActivity.class);
-//                    intentEdit.putExtra("id", String.valueOf(message.obj));
-//                    activityResultLauncher.launch(intentEdit);
+                    Intent intentEdit = new Intent(context, WorkOrderEditActivity.class);
+                    intentEdit.putExtra("data", JSONObject.toJSONString(message.obj));
+                    activityResultLauncher.launch(intentEdit);
                     break;
                 case delete:
                     delete((WorkOrderRestEntity) message.obj);
@@ -223,15 +223,6 @@ public class WorkOrderActivity extends ActivityEx implements View.OnClickListene
         new Thread(() -> {
             String keyword = txKeyword.getText().toString().trim();
             JsonMsg<Page<WorkOrderRestEntity>> jsonMsg = service.find(keyword, pageNo, pageSize);
-            handler.sendMessage(getMessage(EnumAction.query_ui, jsonMsg));
-        }).start();
-    }
-
-    public void page(String url) {
-        showProgressDialog(R.string.loading_data);
-        hideKeyword(txKeyword);
-        new Thread(() -> {
-            JsonMsg<Page<WorkOrderRestEntity>> jsonMsg = service.page(url);
             handler.sendMessage(getMessage(EnumAction.query_ui, jsonMsg));
         }).start();
     }

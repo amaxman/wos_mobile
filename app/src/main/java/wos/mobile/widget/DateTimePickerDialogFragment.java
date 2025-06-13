@@ -127,7 +127,7 @@ public class DateTimePickerDialogFragment extends DialogFragment implements View
         getDialog().getWindow().setDimAmount(0.8f);
         View view  = inflater.inflate(R.layout.dialog_fragment_date_time_picker,container,false);
 
-        AnnotateUtil.initBindView(this);
+        AnnotateUtil.initBindView(this,view);
 
         yearPicker.setOnValueChangedListener((picker,oldValue,newValue)->{
             int year=newValue,month=monthPicker.getValue();
