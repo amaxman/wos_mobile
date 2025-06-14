@@ -107,6 +107,10 @@
     <string name="work_order_staff_progress_completed">已完成</string>
 
     <string name="work_order_staff_add">添加员工</string>
+    <string name="work_order_staff_my">我到工单</string>
+    <string name="work_order_staff_modify_progress">修改进度</string>
+    <string name="work_order_staff_modify_complete">完成</string>
+    <string name="work_order_staff_modify_complete_confirm">确认完成工单?</string>
 
 
     <!-- 异常 -->

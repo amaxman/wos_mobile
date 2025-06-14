@@ -35,6 +35,7 @@ import wos.mobile.entity.Property;
 import wos.mobile.entity.auth.PermissionRestEntity;
 import wos.mobile.service.AuthRestService;
 import wos.mobile.ui.workOrder.WorkOrderActivity;
+import wos.mobile.ui.workOrder.WorkOrderStaffMyActivity;
 import wos.mobile.util.BitmapUtil;
 import wos.mobile.util.CommonFunc;
 import wos.mobile.util.LogUtil;
@@ -104,10 +105,6 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
             }
         }
     };
-
-
-
-
     //#endregion
 
     //#region 系统事件
@@ -388,6 +385,9 @@ public class WelcomeActivity extends ActivityEx implements View.OnClickListener 
         switch (funcCode) {
             case "work_order":
                 startActivity(new Intent(context, WorkOrderActivity.class));
+                break;
+            case "my_work_order":
+                startActivity(new Intent(context, WorkOrderStaffMyActivity.class));
                 break;
             case "config_patrol_point": //点位配置
             case "mobile_user": //移动用户

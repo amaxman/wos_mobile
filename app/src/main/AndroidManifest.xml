@@ -50,6 +50,10 @@
         <activity
             android:name=".ui.workOrder.WorkOrderStaffActivity"
             android:label="@string/work_order_staff" />
+
+        <activity
+            android:name=".ui.workOrder.WorkOrderStaffMyActivity"
+            android:label="@string/work_order_staff_my" />
     </application>
 
 </manifest>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:minHeight="50dp"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="@dimen/item_padding_bottom_default"
+    android:layout_margin="@dimen/item_margin_default"
+    >
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_title"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+            <TextView
+                android:id="@+id/labTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_content"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+            <TextView
+                android:id="@+id/labContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_startTime"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+            <TextView
+                android:id="@+id/labStartTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_endTime"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+
+            <TextView
+                android:id="@+id/labEndTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_cate"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+
+            <TextView
+                android:id="@+id/labCate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_level"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+
+            <TextView
+                android:id="@+id/labLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="@dimen/item_label_width"
+                android:layout_height="wrap_content"
+                android:text="@string/work_order_staff_progress"
+                android:gravity="end"
+                android:paddingEnd="@dimen/item_label_padding_end"
+                />
+            <TextView
+                android:id="@+id/labProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
+
+            <Button
+                android:id="@+id/btnModifyProgress"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="70dp"
+                android:layout_height="@dimen/btn_height"
+                android:background="@drawable/btn_selector"
+                android:text="@string/work_order_staff_modify_progress"
+                />
+
+            <Button
+                android:id="@+id/btnComplete"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="70dp"
+                android:layout_height="@dimen/btn_height"
+                android:background="@drawable/btn_selector"
+                android:text="@string/work_order_staff_modify_complete"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
